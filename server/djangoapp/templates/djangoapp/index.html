@@ -1,69 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dealership Review</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+{% extends 'base.html' %}
 
-</head>
-
-    <body>
-    <!--Add a nav bar here -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <span class="navbar-brand mb-0 h1">Dealership Review</span>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./about">About Us</a>
-            </li>
-          </ul>
-          {% if user.is_authenticated %}
-            <a class="btn btn-link" href="#">({{ user.username }})</a>
-            <a class="nav-link" href="{% url 'djangoapp:logout' %}">Logout</a>
-          {% else %}
-            <form class="d-flex" action="{% url 'djangoapp:login' %}"  method="post">{% csrf_token %}
-              <input class="form-control me-2" type="text" placeholder="Username" aria-label="Username" name="username">
-              <input class="form-control me-2" type="password" placeholder="Password" aria-label="Password" name="psw" >
-              <button class="btn btn-primary" type="submit">Login</button>
-            </form>
-              <a class="nav-link" href="{% url 'djangoapp:signup' %}">Sign Up</a>
-  
-          {% endif %} 
-        </div>
-      </nav>
-    <!--Add a dealer table here -->
-
-    <footer class="bg-light text-center text-lg-start">
-      <!-- Grid container -->
-      <div class="container p-4">
-        <!--Grid row-->
-        <div class="row">
-          <!--Grid column-->
-          <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-            <a href="./contact">Contact Us</a>
-          </div>
-        </div>
-      </div>
-      <!-- Copyright -->
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2020 Copyright: - Dealership -
-      <!-- Copyright -->
-      </div>
-    </footer>
-
-    </body>
-
-</html>
+{% block content %}
+    <h1></br>Our dealerships</h3>
+    <!-- Dealer table -->
+    <div class="container">
+        <table class="table" id="table" data-filter-control="true">
+            <thead>
+                <tr>
+                    <th data-field="id">ID</th>
+                    <th data-field="name">Dealer Name</th>
+                    <th data-field="city">City</th>
+                    <th data-field="address">Address</th>
+                    <th data-field="zip">Zip</th>
+                    <th data-field="state" data-filter-control="select">State</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dealer in dealerships %}
+                <tr>
+                    <td>{{dealer.id}}</td>
+                    <td><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{dealer.full_name}}</a></td>
+                    <td>{{dealer.city}}</td>
+                    <td>{{dealer.address}}</td>
+                    <td>{{dealer.zip}}</td>
+                    <td>{{dealer.state}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- turn-on filter control for the table -->
+    <script>
+        $(function(){
+            $('#table').bootstrapTable()
+        })
+    </script>
+{% endblock %}
