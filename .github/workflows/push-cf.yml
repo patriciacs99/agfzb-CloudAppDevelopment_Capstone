@@ -10,6 +10,8 @@ env:
   IBM_CLOUD_ORG: PcsOrganization
   MANIFEST_NAME: manifest.yml
   IBM_CLOUD_API: ${{secrets.IBM_CLOUD_API_KEY}}
+  WATSON_NLU_API_KEY: roVYlpEPWWVuEHR5Ne4UrQ3X_HkFq0S6xbSrh6Jv86r4
+  WATSON_NLU_URL: https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/4320e2c2-c2bc-4d4c-8b52-76553e25780a
 
 defaults:
   run:
