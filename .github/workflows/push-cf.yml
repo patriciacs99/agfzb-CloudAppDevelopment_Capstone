@@ -46,3 +46,6 @@ jobs:
       - name: Deploy manifest file
         run: ibmcloud cf push -f ./$MANIFEST_NAME
         shell: bash
+      - name: Install module decople
+        run: pip install python-decouple
+        shell: bash
